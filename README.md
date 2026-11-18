@@ -11,7 +11,7 @@ Qualquer outra situação (sem dispositivo, erro, resposta diferente, critério 
 
 > **Apresentação (slides):** [abrir e editar](https://claude.ai/artifact/EoGnfAVoMB5m536WKWSWSy) ·
 > **Fundamentação teórica:** [`fundamentacao_teorica_integrante5.md`](fundamentacao_teorica_integrante5.md)
-> (o link dos slides é privado: precisa ser compartilhado pelo menu Share para o grupo editar).
+> (quem tem o link dos slides consegue abrir; para editar, é preciso ter acesso de edição pelo menu Share).
 
 ## 1. Objetivo e funcionamento esperado
 Simular um cofre eletrônico controlado por um "cartão inteligente" e estudar suas fragilidades:

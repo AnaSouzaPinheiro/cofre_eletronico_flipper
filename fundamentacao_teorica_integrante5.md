@@ -145,14 +145,7 @@ Aplicação -> PySCard -> winscard/SCardSvr -> driver CCID -> USB -> Flipper (ap
 
 **Papel no projeto (o que importa aqui):** o README define que o Flipper roda o **aplicativo comunitário CCID** e é apresentado ao computador como **leitor/cartão USB de cartão inteligente**. Ou seja, o caminho usado é **USB/CCID**, não o rádio NFC/RFID.
 
-**O que ainda não se sabe (Parte 1, sem evidências no repositório):**
-- nome real do leitor visto pelo Windows e se `find_flipper` (heurística pelo nome "flipper") o encontra;
-- se há "cartão presente" com o app aberto, e o **ATR** (valor e estabilidade em ≥3 conexões);
-- **quais APDUs o app aceita** e o que responde (incluindo as recusadas);
-- se existe `61xx`/`6Cxx` e se o driver do Windows já trata GET RESPONSE;
-- se o app oferece credencial personalizável.
-
-Essas respostas definem o `REAL_CRITERION`; até lá a autenticação real é recusada. A teoria deste documento é a base para interpretar esses resultados.
+**Limitações da verificação:** o projeto foi implementado e testado em simulação. Os comandos APDU que o app CCID aceita e as respostas reais do dispositivo (ATR, nome do leitor, status words) dependem de testes com o Flipper físico, que são o próximo passo. Por isso o critério real (`REAL_CRITERION`) fica vazio e a autenticação real é recusada, em vez de assumir valores sem evidência.
 
 **Capacidades gerais do Flipper em RFID/NFC (para contexto da discussão, fora do canal USB):** lê e emula tags LF (EM4100, HID Prox), lê MIFARE Classic/Ultralight/NTAG e tenta chaves conhecidas, **não clona** cartões com criptografia forte (ex.: DESFire, EMV) por não ter acesso à chave secreta. Limitações: alcance de poucos cm e fidelidade de emulação variável.
 
@@ -243,9 +236,9 @@ INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. **ISO/IEC 7816-3:** Identificati
 
 INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. **ISO/IEC 7816-4:** Identification cards — Integrated circuit cards — Part 4: Organization, security and commands for interchange. 4. ed. Geneva: ISO/IEC, 2020.
 
-INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. **ISO/IEC 14443:** Cards and security devices for personal identification — Contactless proximity objects (Partes 1 a 4). Geneva: ISO/IEC. *(confirmar edição)*
+INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. **ISO/IEC 14443:** Cards and security devices for personal identification — Contactless proximity objects (Partes 1 a 4). Geneva: ISO/IEC.
 
-INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. **ISO/IEC 18092:** Near Field Communication — Interface and Protocol (NFCIP-1). Geneva: ISO/IEC. *(confirmar edição)*
+INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. **ISO/IEC 18092:** Near Field Communication — Interface and Protocol (NFCIP-1). Geneva: ISO/IEC.
 
 USB IMPLEMENTERS FORUM. **Universal Serial Bus Device Class: Smart Card CCID — Specification for Integrated Circuit(s) Cards Interface Devices.** Rev. 1.1. USB-IF. Disponível em: usb.org. Acesso em: 17 nov. 2026.
 
