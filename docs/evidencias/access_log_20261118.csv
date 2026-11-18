@@ -1,0 +1,14 @@
+﻿horario;evento;resultado;modo;dispositivo;detalhe
+18/11/2026 18:47:29;Detecção de leitores;INFO;REAL;-;1 leitor(es) PC/SC encontrado(s).
+18/11/2026 18:47:29;Sistema iniciado;INFO;REAL;-;Cofre bloqueado
+18/11/2026 18:47:50;Detecção de leitores;INFO;REAL;-;1 leitor(es) PC/SC encontrado(s).
+18/11/2026 18:48:03;Conexão;ACEITO;REAL;Generic USB Smart Card Reader 00 00;ATR=3B00
+18/11/2026 18:48:15;Autenticação;ACEITO;REAL;Generic USB Smart Card Reader 00 00;Critério atendido
+18/11/2026 18:48:46;Bloqueio manual;INFO;REAL;Generic USB Smart Card Reader 00 00;Cofre bloqueado pelo operador
+18/11/2026 18:48:49;Autenticação;REJEITADO;REAL;Generic USB Smart Card Reader 00 00;Falha de comunicação com o dispositivo | Falha na comunicação APDU: Failed to transmit with protocol T0. Invalid value given.: Invalid value given. (0x80100011)
+18/11/2026 18:48:49;Desconexão;INFO;REAL;Generic USB Smart Card Reader 00 00;Conexão perdida (falha de comunicação)
+18/11/2026 18:51:09;Detecção de leitores;INFO;REAL;-;Nenhum leitor PC/SC encontrado. Conecte o dispositivo e tente novamente.
+18/11/2026 18:51:09;Sistema iniciado;INFO;REAL;-;Cofre bloqueado
+18/11/2026 18:51:09;Detecção de leitores;INFO;REAL;-;Nenhum leitor PC/SC encontrado. Conecte o dispositivo e tente novamente.
+18/11/2026 18:51:10;Conexão;REJEITADO;REAL;-;Nenhum leitor selecionado.
+18/11/2026 18:51:11;Autenticação;REJEITADO;REAL;-;Nenhum dispositivo conectado

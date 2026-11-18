@@ -1,0 +1,10 @@
+[18:43:28] Evidências em: ./tools/evidencias/diag_20261118_184328.txt
+[18:43:28] Conectado a: Generic USB Smart Card Reader 00 00
+[18:43:28] ATR (2 B): 3B 00
+[18:43:28]   TX (5 B): 00 B0 00 00 10
+[18:43:28]   RX bruto  : 6E 00
+[18:43:28]   Dados     : (vazio)  (0 bytes)
+[18:43:28]   SW1       : 6E
+[18:43:28]   SW2       : 00
+[18:43:28]   Significado SW (ISO 7816-4, genérico): Erro: CLA não suportado
+[18:43:28] Desconectado.

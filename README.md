@@ -4,9 +4,9 @@ Protótipo para experimento acadêmico de Segurança da Informação. O cofre s�
 quando a resposta do dispositivo bate **exatamente** com o critério definido em `config.py`.
 Qualquer outra situação (sem dispositivo, erro, resposta diferente, critério não configurado) mantém o cofre **bloqueado**.
 
-> **Status resumido:** aplicação, simulação e camada PC/SC/APDU implementadas e testadas **sem hardware**
-> (parser, mocks e interface em modo simulado). **Nada foi validado ainda com o Flipper Zero físico** e o
-> critério de autenticação real (`REAL_CRITERION`) está **vazio de propósito**: autenticação em modo real é recusada.
+> **Status resumido:** aplicação, simulação e camada PC/SC/APDU implementadas e **validadas com o Flipper Zero
+> físico** em 18/11/2026 (Linux, `pcscd`). Critério real em `config.py`: ATR `3B 00` + APDU `01 01 00 00` → `90 00`.
+> Detalhes e evidências: seção "Validação com hardware" em [`PLANO_DE_DESENVOLVIMENTO.md`](PLANO_DE_DESENVOLVIMENTO.md).
 > Acompanhamento detalhado por integrante: [`PLANO_DE_DESENVOLVIMENTO.md`](PLANO_DE_DESENVOLVIMENTO.md).
 
 ## 1. Objetivo e funcionamento esperado
@@ -40,7 +40,7 @@ A chamada APDU roda em *worker* (QThreadPool) para não travar a interface.
 ### Papéis
 | Componente | Papel |
 |---|---|
-| **Flipper Zero + app CCID** | Apresenta-se ao PC como leitor de cartão inteligente USB. Quais APDUs ele aceita e responde **ainda não foi confirmado** — depende dos testes com o dispositivo. |
+| **Flipper Zero + app CCID** | Apresenta-se ao PC como leitor de cartão inteligente USB. Aparece como `Generic USB Smart Card Reader`, ATR `3B 00`; aceita CLA `01` e responde `90 00` a `01 01 00 00`. |
 | **PC/SC (Windows)** | Camada padrão de acesso a leitores/cartões; o serviço "Cartão Inteligente" (SCardSvr) é configurado para iniciar por gatilho (chegada de leitor/chamada RPC). |
 | **PySCard (Python)** | Biblioteca que expõe o PC/SC ao Python. |
 | **APDU** | Unidade de comando/resposta (ISO 7816-4): comando `CLA INS P1 P2 [Lc dados] [Le]`; resposta `dados + SW1 SW2`. |
@@ -58,9 +58,9 @@ A chamada APDU roda em *worker* (QThreadPool) para não travar a interface.
 ## 4. Etapas previstas
 | Etapa | Conteúdo | Situação (ver plano) |
 |---|---|---|
-| Desenvolvimento | Aplicação/cofre, camada PC/SC/APDU, diagnóstico | Implementado; sem hardware |
-| Integração | Aplicação ↔ Flipper via PC/SC, definição do critério real | Pendente (depende do dispositivo) |
-| Testes | APDUs suportadas, ATR, falhas, respostas inesperadas, replay | Pendente |
+| Desenvolvimento | Aplicação/cofre, camada PC/SC/APDU, diagnóstico | Implementado |
+| Integração | Aplicação ↔ Flipper via PC/SC, definição do critério real | Concluído (18/11/2026) |
+| Testes | APDUs suportadas, ATR, falhas, respostas inesperadas, replay | Parcial (APDUs, ATR e falha feitos; replay pendente) |
 | Demonstração | Roteiro, integração final, slides | Pendente |
 
 ## 5. Estrutura

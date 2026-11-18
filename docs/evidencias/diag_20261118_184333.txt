@@ -1,0 +1,10 @@
+[18:43:33] Evidências em: ./tools/evidencias/diag_20261118_184333.txt
+[18:43:33] Conectado a: Generic USB Smart Card Reader 00 00
+[18:43:33] ATR (2 B): 3B 00
+[18:43:33]   TX (9 B): 01 01 00 00 04 11 22 33 44
+[18:43:33]   RX bruto  : 90 00
+[18:43:33]   Dados     : (vazio)  (0 bytes)
+[18:43:33]   SW1       : 90
+[18:43:33]   SW2       : 00
+[18:43:33]   Significado SW (ISO 7816-4, genérico): Sucesso (comando executado)
+[18:43:33] Desconectado.
