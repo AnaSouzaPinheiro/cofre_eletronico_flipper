@@ -57,7 +57,7 @@ Ressalva: esses scripts ainda **não estão versionados** (ver pendências da Pa
 **Pendente:**
 - [x] Preencher `REAL_CRITERION` com evidências da Parte 1 (18/11/2026).
 - [ ] Decidir sobre critério só de ATR (ver "Riscos em aberto", item 1).
-- [~] Capturas de tela em modo real: negado salvo (`tools/evidencias/tela_negativo_sem_dispositivo.png`); aceito pendente (gerar com `tools/capturar_telas.py` com o app CCID aberto).
+- [x] Capturas de tela em modo real (`docs/evidencias/`): bloqueado, liberado, rebloqueado e negado sem dispositivo (geradas com `tools/capturar_telas.py`).
 
 **Dependências:** Parte 1 (valores reais), Parte 3 (transporte).
 
