@@ -21,10 +21,12 @@ from core.criterion import Criterion
 # O critério é considerado "configurado" se expected_atr estiver definido OU
 # se apdu e expected_data estiverem definidos.
 REAL_CRITERION = Criterion(
-    apdu=None,              # TODO(equipe-flipper): APDU real
-    expected_data=None,     # TODO(equipe-flipper): dados de resposta esperados
+    # Valores obtidos com tools/flipper_diag.py em 18/11/2026 (app CCID):
+    # CLA 00/80/FF -> 6E 00; "01 02 03 04" -> 6A 00; "01 01 00 00" -> 90 00.
+    apdu=bytes.fromhex("01010000"),
+    expected_data=b"",
     expected_sw=(0x90, 0x00),
-    expected_atr=None,      # TODO(equipe-flipper): ATR esperado (opcional)
+    expected_atr=bytes.fromhex("3B00"),
 )
 
 # ----------------------------------------------------------------------------

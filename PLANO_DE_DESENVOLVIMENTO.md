@@ -35,9 +35,9 @@ Para cada item distinguimos três níveis de evidência, e **só o último conta
 **Pendente:**
 - [ ] Instalar/abrir o app CCID e conectar por USB; registrar versão do app e do firmware.
 - [ ] Confirmar que o Windows enxerga o leitor (`Get-PnpDevice -Class SmartCardReader`, `certutil -scinfo`); anotar VID/PID e nome do leitor.
-- [ ] Registrar o **ATR** (em ≥3 conexões) e se há "cartão presente".
-- [ ] Descobrir, **por teste**, quais APDUs o app aceita e o que responde (listar também as recusadas).
-- [ ] Entregar a Ana/Fernanda os valores para o `REAL_CRITERION`.
+- [x] Registrar o **ATR**: `3B 00`, estável em 5 conexões de 18/11/2026; com o app CCID aberto, `pcsc_scan` mostra "Card inserted".
+- [x] Descobrir, **por teste**, quais APDUs o app aceita e o que responde (ver "Validação com hardware" na Parte 3).
+- [x] Entregar a Ana/Fernanda os valores para o `REAL_CRITERION`.
 
 **Dependências:** é pré-requisito das Partes 3 (validação), 4 e 6.
 
@@ -52,12 +52,12 @@ Para cada item distinguimos três níveis de evidência, e **só o último conta
 **MOCK (executados na revisão de integração, offscreen):** simulação (válido/inválido/falha de comunicação), seleção do critério pelo leitor, perda de conexão, exceção no worker, rótulo de modo no log, fechamento da janela.
 Ressalva: esses scripts ainda **não estão versionados** (ver pendências da Parte 3).
 
-**HW:** a janela **não** foi exercitada com o Flipper.
+**HW (18/11/2026, Linux):** janela exercitada com o Flipper: conexão (ATR `3B00`), autenticação **aceita**, bloqueio manual e autenticação **negada** após o app CCID ser fechado (ver `logs/access_log.csv`).
 
 **Pendente:**
-- [ ] Preencher `REAL_CRITERION` só com evidências da Parte 1 (**não fazer antes**).
+- [x] Preencher `REAL_CRITERION` com evidências da Parte 1 (18/11/2026).
 - [ ] Decidir sobre critério só de ATR (ver "Riscos em aberto", item 1).
-- [ ] Capturas de tela em modo real (aceito/rejeitado) para o relatório.
+- [~] Capturas de tela em modo real: negado salvo (`tools/evidencias/tela_negativo_sem_dispositivo.png`); aceito pendente (gerar com `tools/capturar_telas.py` com o app CCID aberto).
 
 **Dependências:** Parte 1 (valores reais), Parte 3 (transporte).
 
@@ -104,10 +104,30 @@ O que **foi** testado: `--self-test` do parser/formatador/SW; `PCSCReader` com c
 
 ### Para considerar a Parte 3 concluída
 - [ ] Itens de código acima tratados (1–4 no mínimo) e `tests/` versionado.
-- [ ] `flipper_diag.py` executado com o Flipper: `--list`, ATR (≥3 conexões), APDUs reais testadas, log guardado em `tools/evidencias/`.
-- [ ] Aplicação em modo real: conectar, ATR exibido, autenticação rejeitada (critério vazio) e depois aceita/rejeitada com `REAL_CRITERION` baseado em evidências.
+- [x] `flipper_diag.py` executado com o Flipper: `--list`, ATR (5 conexões), APDUs reais testadas, log guardado em `tools/evidencias/`.
+- [x] Aplicação em modo real: conectar, ATR exibido, autenticação aceita com `REAL_CRITERION` baseado em evidências e negada após fechar o app CCID.
 - [ ] Cenários de falha reais: USB removido, app CCID fechado, serviço PC/SC indisponível — todos resultando em acesso **negado**.
 - [ ] Evidências organizadas para o relatório (ver lista no fim).
+
+### Validação com hardware (Linux, 18/11/2026)
+Ambiente: Ubuntu (Python 3.12), `pcscd` 2.0.3 + `libccid` 1.5.5, PySide6 6.12 e pyscard em `.venv`. Flipper Zero com o app CCID aberto.
+- Sem o app CCID, o Flipper aparece só como `0483:5740 Virtual COM Port` (`/dev/ttyACM0`) e nenhum leitor PC/SC é listado.
+- Com o app aberto: leitor `Generic USB Smart Card Reader 00 00` (o nome não contém "flipper", então `find_flipper` não o pré-seleciona; como é o único leitor, a UI o escolhe de qualquer forma); ATR `3B 00`.
+- APDUs testadas (`tools/evidencias/diag_20261118_*.txt`):
+
+| TX | RX | Interpretação |
+|---|---|---|
+| `00 A4 04 00` | `6E 00` | CLA não suportado |
+| `00 84 00 00 08` | `6E 00` | CLA não suportado |
+| `80 CA 00 00` | `6E 00` | CLA não suportado |
+| `FF CA 00 00 00` | `6E 00` | CLA não suportado |
+| `00 B0 00 00 10` | `6E 00` | CLA não suportado |
+| `01 02 03 04` | `6A 00` | CLA aceito, parâmetros incorretos |
+| `01 01 00 00` (com ou sem Lc/dados/Le) | `90 00` | sucesso, sem dados |
+
+- `REAL_CRITERION` = ATR `3B00` + APDU `01 01 00 00` → `90 00` sem dados. Autenticação real **aceita** (via `Authenticator` e pela interface).
+- App CCID fechado durante a sessão: `transmit` falha (`0x80100011`), a UI desconecta e nega o acesso (fail-closed confirmado em hardware).
+- **Para a Parte 4:** a resposta é fixa e não depende de segredo; qualquer dispositivo que emule o app CCID abre o cofre.
 
 ### Ambiente Windows (máquina da Ana, 17/11/2026, **sem o Flipper conectado**)
 Consultas somente de leitura. Esta é observação de ambiente da Parte 3, **não** evidência da Parte 1.
@@ -171,7 +191,7 @@ Consultas somente de leitura. Esta é observação de ambiente da Parte 3, **nã
 ## Riscos em aberto
 1. **Critério só de ATR** não prova presença no momento da autenticação. Exigir APDU no critério real, ou reconsultar o ATR, é decisão da equipe (não alterado).
 2. **Ambiente Windows:** o PC/SC respondeu `0x8010001D` (`SCARD_E_NO_SERVICE`) na máquina da Ana, sem o Flipper conectado. Se a ausência do Flipper é a causa é **hipótese**; confirmar com o Flipper conectado antes de qualquer reparo no sistema.
-3. **Respostas reais desconhecidas:** nenhum comando APDU foi confirmado no Flipper; não preencher `REAL_CRITERION` sem evidência.
+3. ~~Respostas reais desconhecidas~~: resolvido em 18/11/2026, `01 01 00 00` → `90 00` (ver Parte 3).
 
 ## Evidências a coletar para o relatório
 - `Get-PnpDevice -Class SmartCardReader` e `certutil -scinfo` com o Flipper conectado; nome do leitor, VID/PID.
