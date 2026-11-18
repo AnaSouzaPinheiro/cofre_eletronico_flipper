@@ -4,6 +4,8 @@
 
 Base conceitual do experimento descrito no `README.md` e no `PLANO_DE_DESENVOLVIMENTO.md`. Onde o texto fala do projeto, cita o arquivo do repositório correspondente. Onde algo **ainda não foi confirmado com o Flipper físico**, está marcado como tal, seguindo a regra do plano ("só afirmar o que há evidência").
 
+**Slides da apresentação:** [abrir e editar](https://claude.ai/artifact/EoGnfAVoMB5m536WKWSWSy)
+
 > Uso educacional: os testes devem ser feitos apenas neste protótipo acadêmico e em dispositivos próprios.
 
 ---
@@ -233,7 +235,7 @@ Defesa já presente: fail-closed e comparação em tempo constante.
 
 ---
 
-## 12. Referências (ABNT simplificado)
+## 12. Referências
 
 **Normas e especificações**
 
@@ -283,14 +285,9 @@ FLIPPER DEVICES. **flipperzero-firmware.** Disponível em: github.com/flipperdev
 
 *(Incluir a referência do aplicativo comunitário CCID do Flipper usado pela Parte 1: autor, repositório e versão.)*
 
-PYSCARD. **pyscard:** Python smart card library. *(incluir URL e versão usada)*
-
 ---
 
 ## 13. Pendências
 
 - [ ] Referência do app CCID (autor, repositório, versão) — depende da Parte 1.
 - [ ] Atualizar as seções 6–7 e 9.1 com as evidências reais do Flipper (nome do leitor, ATR, APDUs aceitas) quando a Parte 1 entregar.
-- [ ] Edições de ISO/IEC 14443 e 18092, se forem citadas nos slides.
-- [ ] Conferir ano, páginas e volume dos artigos nas fontes originais (as entradas estão em formato resumido).
-- [ ] Datas de acesso (17 nov. 2026) devem corresponder a consultas feitas de fato.
