@@ -221,3 +221,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Cofre eletronico: registros de acesso locais (podem conter dados de teste/pessoais)
+logs/*.csv
+
+# Diagnostico: logs brutos de evidencia (contem caminhos locais). Evidencias finais vao em docs/evidencias/
+tools/evidencias/
