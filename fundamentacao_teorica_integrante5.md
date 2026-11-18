@@ -2,7 +2,7 @@
 
 **Parte 5 — Pesquisa e fundamentação (Lucas)**
 
-Base conceitual do experimento descrito no `README.md` e no `PLANO_DE_DESENVOLVIMENTO.md`. Onde o texto fala do projeto, cita o arquivo do repositório correspondente. Onde algo **ainda não foi confirmado com o Flipper físico**, está marcado como tal, seguindo a regra do plano ("só afirmar o que há evidência").
+Base conceitual do experimento descrito no `README.md` e no `PLANO_DE_DESENVOLVIMENTO.md`. Onde o texto fala do projeto, cita o arquivo do repositório correspondente. O comportamento do Flipper físico foi verificado em 18/11/2026 (seção 7); o que não tem evidência está marcado como tal, seguindo a regra do plano ("só afirmar o que há evidência").
 
 > Uso educacional: os testes devem ser feitos apenas neste protótipo acadêmico e em dispositivos próprios.
 
@@ -133,7 +133,7 @@ Aplicação -> PySCard -> winscard/SCardSvr -> driver CCID -> USB -> Flipper (ap
             transmit(APDU)
 ```
 
-**Erro observado no repositório (máquina sem Flipper):** `0x8010001D` = `SCARD_E_NO_SERVICE` (Gerenciador de Recursos do Cartão Inteligente não está em execução). O plano registra que `SCardSvr` está configurado com início por gatilho (chegada de dispositivo) e levanta a hipótese, **ainda não comprovada**, de que sem leitor visível o serviço não sobe. Confirmar com o Flipper conectado (`Get-PnpDevice -Class SmartCardReader`, `certutil -scinfo`).
+**Erro observado no repositório (máquina sem Flipper):** `0x8010001D` = `SCARD_E_NO_SERVICE` (Gerenciador de Recursos do Cartão Inteligente não está em execução). O plano registra que `SCardSvr` está configurado com início por gatilho (chegada de dispositivo) e levanta a hipótese de que sem leitor visível o serviço não sobe. No Linux o comportamento é análogo: o `pcscd` é ativado por socket e só lista o leitor quando o app CCID está aberto no Flipper (sem o app, o Flipper aparece apenas como porta serial).
 
 ---
 
@@ -143,7 +143,7 @@ Aplicação -> PySCard -> winscard/SCardSvr -> driver CCID -> USB -> Flipper (ap
 
 **Papel no projeto (o que importa aqui):** o README define que o Flipper roda o **aplicativo comunitário CCID** e é apresentado ao computador como **leitor/cartão USB de cartão inteligente**. Ou seja, o caminho usado é **USB/CCID**, não o rádio NFC/RFID.
 
-**Limitações da verificação:** o projeto foi implementado e testado em simulação. Os comandos APDU que o app CCID aceita e as respostas reais do dispositivo (ATR, nome do leitor, status words) dependem de testes com o Flipper físico, que são o próximo passo. Por isso o critério real (`REAL_CRITERION`) fica vazio e a autenticação real é recusada, em vez de assumir valores sem evidência.
+**Verificação com o Flipper físico (18/11/2026, Linux com `pcscd`):** com o app CCID aberto, o computador vê o leitor `Generic USB Smart Card Reader` com ATR `3B 00` (ATR mínimo, sem bytes históricos). Os comandos ISO comuns (classes `00`, `80`, `FF`) recebem `6E 00` (classe não suportada); a classe `01` é aceita, e `01 01 00 00` recebe `90 00` sem dados. Esses valores formam o critério real em `config.py`. Como a resposta é fixa e não depende de segredo, o app CCID ilustra exatamente a **credencial estática** discutida na seção de vulnerabilidades. Evidências em `docs/evidencias/` e detalhes em `PLANO_DE_DESENVOLVIMENTO.md` (Parte 3, "Validação com hardware").
 
 **Capacidades gerais do Flipper em RFID/NFC (para contexto da discussão, fora do canal USB):** lê e emula tags LF (EM4100, HID Prox), lê MIFARE Classic/Ultralight/NTAG e tenta chaves conhecidas, **não clona** cartões com criptografia forte (ex.: DESFire, EMV) por não ter acesso à chave secreta. Limitações: alcance de poucos cm e fidelidade de emulação variável.
 

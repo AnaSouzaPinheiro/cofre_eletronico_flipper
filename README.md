@@ -103,15 +103,31 @@ python main.py
 Sem hardware: marque **Modo de simulação**, clique em **Conectar** e depois **Iniciar autenticação**.
 O modo simulado exibe uma faixa laranja, marca os registros como `SIMULAÇÃO` e usa um critério fictício próprio.
 
+### 6.1 Instalação no Linux (ambiente da validação com o Flipper)
+```
+sudo apt install pcscd libccid pcsc-tools
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+.venv/bin/python main.py
+```
+O Ubuntu recusa `pip install` fora de um venv (`externally-managed-environment`); use sempre o `.venv`.
+
 ## 7. Conectando o Flipper Zero
-1. No Flipper, abra o app CCID e conecte o USB ao PC.
-2. Verifique o que o Windows enxerga: `certutil -scinfo` (lista leitores/cartões PC/SC).
-3. Teste primeiro com o diagnóstico (abaixo), depois na aplicação: desmarque a simulação, **Detectar leitores**, escolha o dispositivo e **Conectar**.
-   Anote o ATR exibido e o nome do leitor.
-4. Descubra, **por teste**, os comandos APDU reais e as respostas (não presumimos nenhum comando;
-   o app CCID pode não oferecer credencial personalizada).
-5. Preencha `REAL_CRITERION` em `config.py` **somente com valores observados**. Até lá a autenticação REAL é recusada com
-   "Critério de autenticação real não configurado".
+1. No Flipper, abra o app CCID e conecte o USB ao PC (cabo de dados, não só de carga).
+   Sem o app aberto, o Flipper aparece apenas como porta serial (`0483:5740`, `/dev/ttyACM0`) e nenhum leitor é listado.
+2. Verifique o leitor: `pcsc_scan` no Linux (Ctrl+C para sair) ou `certutil -scinfo` no Windows.
+   Esperado: `Generic USB Smart Card Reader`, ATR `3B 00`.
+3. Na aplicação: desmarque a simulação, **Detectar leitores**, **Conectar** e **Iniciar autenticação** → ACESSO LIBERADO.
+4. Caso negativo: feche o app CCID e tente de novo → o cofre permanece bloqueado.
+
+Critério real em `config.py` (valores observados em 18/11/2026): ATR `3B 00`, APDU `01 01 00 00`, resposta `90 00` sem dados.
+Capturas de tela para o relatório: `.venv/bin/python tools/capturar_telas.py` (com o app CCID aberto).
+
+## 7.1 Testes de segurança
+```
+.venv/bin/python tests/run_tests.py
+```
+30 testes com leitores simulados; análise e recomendações em [`docs/TESTES_DE_SEGURANCA.md`](docs/TESTES_DE_SEGURANCA.md).
 
 ## 8. Ferramenta de diagnóstico (`tools/flipper_diag.py`)
 Independente da interface e do critério; **não envia nada sozinha**. Grava evidências em `tools/evidencias/`.
@@ -119,11 +135,12 @@ Independente da interface e do critério; **não envia nada sozinha**. Grava evi
 python tools/flipper_diag.py --self-test            # sem hardware (parser/formatador/SW)
 python tools/flipper_diag.py --list                 # lista leitores
 python tools/flipper_diag.py                        # interativo (h = ajuda)
-python tools/flipper_diag.py -r flipper --atr
-python tools/flipper_diag.py -r 0 -a "00 A4 04 00" --follow-up
+python tools/flipper_diag.py -r 0 --atr
+python tools/flipper_diag.py -r 0 -a "01 01 00 00"     # comando aceito pelo app CCID (90 00)
 ```
-A saída separa TX, RX bruto, dados, SW1 e SW2 (com descrição genérica ISO 7816-4 — não confirma o que o Flipper implementa).
-O exemplo `00 A4 04 00` é apenas ilustração de formato: **não** sabemos se o Flipper o suporta.
+A saída separa TX, RX bruto, dados, SW1 e SW2 (com descrição genérica ISO 7816-4).
+O nome do leitor não contém "flipper", então use `-r 0` (índice) em vez de `-r flipper`.
+Comandos ISO comuns como `00 A4 04 00` recebem `6E 00` (classe não suportada) no app CCID.
 
 ## 9. Pontos a adaptar
 | Onde | O que |
