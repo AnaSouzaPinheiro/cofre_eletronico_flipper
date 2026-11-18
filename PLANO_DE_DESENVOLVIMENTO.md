@@ -158,7 +158,7 @@ Consultas somente de leitura. Esta é observação de ambiente da Parte 3, **nã
 ---
 
 ## Parte 6 — Integração e apresentação (Andrigo) — `[ ]`
-**Produzido:** instruções de instalação/execução no README e o rascunho dos slides (11 slides): [abrir e editar](https://claude.ai/artifact/EoGnfAVoMB5m536WKWSWSy). Os resultados de hardware nos slides ainda estão como "A testar".
+**Produzido:** apenas instruções de instalação/execução no README (visão geral do projeto).
 **Pendente:**
 - [ ] Roteiro da demonstração (simulação e real) e plano B caso o Flipper/PC/SC falhe.
 - [ ] Integração final e ensaio; slides.

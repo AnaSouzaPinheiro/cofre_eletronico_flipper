@@ -9,10 +9,6 @@ Qualquer outra situação (sem dispositivo, erro, resposta diferente, critério 
 > critério de autenticação real (`REAL_CRITERION`) está **vazio de propósito**: autenticação em modo real é recusada.
 > Acompanhamento detalhado por integrante: [`PLANO_DE_DESENVOLVIMENTO.md`](PLANO_DE_DESENVOLVIMENTO.md).
 
-> **Apresentação (slides):** [abrir e editar](https://claude.ai/artifact/EoGnfAVoMB5m536WKWSWSy) ·
-> **Fundamentação teórica:** [`fundamentacao_teorica_integrante5.md`](fundamentacao_teorica_integrante5.md)
-> (quem tem o link dos slides consegue abrir; para editar, é preciso ter acesso de edição pelo menu Share).
-
 ## 1. Objetivo e funcionamento esperado
 Simular um cofre eletrônico controlado por um "cartão inteligente" e estudar suas fragilidades:
 - o **Flipper Zero**, rodando o aplicativo comunitário **CCID**, é apresentado ao computador como um leitor/cartão USB de cartão inteligente;

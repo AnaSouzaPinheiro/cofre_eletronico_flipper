@@ -4,8 +4,6 @@
 
 Base conceitual do experimento descrito no `README.md` e no `PLANO_DE_DESENVOLVIMENTO.md`. Onde o texto fala do projeto, cita o arquivo do repositório correspondente. Onde algo **ainda não foi confirmado com o Flipper físico**, está marcado como tal, seguindo a regra do plano ("só afirmar o que há evidência").
 
-**Slides da apresentação:** [abrir e editar](https://claude.ai/artifact/EoGnfAVoMB5m536WKWSWSy)
-
 > Uso educacional: os testes devem ser feitos apenas neste protótipo acadêmico e em dispositivos próprios.
 
 ---
