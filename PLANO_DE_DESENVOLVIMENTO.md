@@ -19,7 +19,7 @@ Para cada item distinguimos três níveis de evidência, e **só o último conta
 | 1 | Flipper Zero e CCID | Ulisses | `[ ]` sem evidências | — | — | não |
 | 2 | Interface e lógica do cofre | Fernanda | `[~]` | sim | sim (simulação) | não |
 | 3 | Comunicação APDU/PC/SC | Ana | `[~]` | sim | sim | **não** |
-| 4 | Testes de vulnerabilidade | a definir | `[ ]` | não | — | não |
+| 4 | Testes de vulnerabilidade | a definir | `[~]` | sim | sim (30 testes) | parcial |
 | 5 | Fundamentação teórica | a definir | `[ ]` | não | — | — |
 | 6 | Integração e apresentação | Andrigo | `[ ]` | só instruções de execução (README) | — | não |
 
@@ -150,8 +150,10 @@ Consultas somente de leitura. Esta é observação de ambiente da Parte 3, **nã
 
 ---
 
-## Parte 4 — Testes de vulnerabilidade — `[ ]`
-**IMPL/MOCK/HW:** nenhum teste ou relatório no repositório.
+## Parte 4 — Testes de vulnerabilidade — `[~]`
+**IMPL/MOCK:** suíte de 30 testes em [`tests/`](tests/) (leitores simulados) e análise com recomendações em [`docs/TESTES_DE_SEGURANCA.md`](docs/TESTES_DE_SEGURANCA.md). Execução final: 30/30 `APROVADO` (`docs/evidencias/testes_seguranca/`); reexecutada em 18/11/2026 com o critério real: 30/30.
+
+**HW:** a resposta fixa do Flipper (`01 01 00 00` → `90 00`, sem dados) confirma na prática a vulnerabilidade de T08/T20 e T30 (ver seção 3.1 do documento). Falta demonstrar o replay com outro dispositivo ou cartão emulado.
 
 **Hipóteses de análise já levantadas na revisão (a testar, não são resultados):**
 - critério estático ⇒ **replay** / emulação por outro dispositivo que devolva a mesma resposta;
