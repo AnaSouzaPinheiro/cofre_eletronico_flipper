@@ -275,12 +275,3 @@ FRANCILLON, A. *et al.* Relay Attacks on Passive Keyless Entry and Start Systems
 FLIPPER DEVICES. **Flipper Zero Documentation.** Disponível em: docs.flipper.net. Acesso em: 17 nov. 2026.
 
 FLIPPER DEVICES. **flipperzero-firmware.** Disponível em: github.com/flipperdevices/flipperzero-firmware. Acesso em: 17 nov. 2026.
-
-*(Incluir a referência do aplicativo comunitário CCID do Flipper usado pela Parte 1: autor, repositório e versão.)*
-
----
-
-## 13. Pendências
-
-- [ ] Referência do app CCID (autor, repositório, versão) — depende da Parte 1.
-- [ ] Atualizar as seções 6–7 e 9.1 com as evidências reais do Flipper (nome do leitor, ATR, APDUs aceitas) quando a Parte 1 entregar.
